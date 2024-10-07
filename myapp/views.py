@@ -17,7 +17,7 @@ def index(request):
 
 def register(request):
     if request.method=='POST':
-        fn = request.POST['fname']
+        username = request.POST['username']
         email = request.POST['email']
         passw = request.POST['pass']
         rp = request.POST['rp']
@@ -27,12 +27,12 @@ def register(request):
                 messages.info(request, 'Email already Used')
                 return redirect('register')
                
-            elif User.objects.filter(fn=fn).exists():
+            elif User.objects.filter(username=username).exists():
                 messages.info(request, 'Username already Used')
                 return redirect('register')
             
             else:
-                user = User.objects.create_user(fn=fn, email=email, password=passw)
+                user = User.objects.create_user(username=username, email=email, password=passw)
                 user.save()
                 return redirect('login')
         
@@ -43,7 +43,9 @@ def register(request):
             
     return render(request, 'register.html')        
             
-        
+def login(request):
+    return render(request, 'login.html')
+          
 
 
 def count(request):
